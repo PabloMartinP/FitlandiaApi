@@ -142,6 +142,11 @@ app.get("/fiok", function(req, res) {
 
 });
 
+app.get("/aom", function(req, res) {
+  res.status(200).json("ella ya me olvido");
+
+});
+
 /*  "/api/contacts"
  *    GET: finds all contacts
  *    POST: creates a new contact
