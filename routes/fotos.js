@@ -34,7 +34,6 @@ router.post('/',  function(req, res, next) {
   if (!req.files)
   return res.status(400).send('No files were uploaded.' + req.files + "_");
 
-  console.log(req.files.foto.name);
   var hostname = os.hostname();
   //var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
   var fullUrl = req.protocol + '://' + req.get('host') + "/";//+ req.originalUrl;
@@ -43,15 +42,29 @@ router.post('/',  function(req, res, next) {
 
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
   let foto = req.files.foto;
-
+  var contentType = foto.mimetype;
+  console.log(foto)
   if(!fs.existsSync(dir))
     fs.mkdirSync(dir);
-  var url = dir + req.files.foto.name;
-  foto.mv(url, function(err) {
+  var path = dir + req.files.foto.name;
+  foto.mv(path, function(err) {
     if (err)
       return res.status(500).send(err);
-  
-    Foto.create({nombre: req.body.nombre,url: fullUrl+ url, foto: foto.data}, function (err, post) {
+    
+    var contentFile = fs.readFileSync(path);    
+    var imageAsBase64 = fs.readFileSync(path, 'base64');
+    var mimetypeAndImageAsBase64 ="data:"+foto.mimetype + ";" + imageAsBase64;
+    var f = {
+      nombre: req.body.nombre,
+      url: fullUrl+ path, 
+      base64: mimetypeAndImageAsBase64,
+      foto: {
+        data : "", 
+        contentType : contentType
+      }
+    };
+    //console.log("f", f);
+    Foto.create(f, function (err, post) {
       if (err) return next(err);
         res.json(post);
       });

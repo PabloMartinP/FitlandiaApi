@@ -138,7 +138,7 @@ app.get("/fitlandia/chau", function(req, res) {
 });
 
 app.get("/fiok", function(req, res) {
-  res.status(200).json("baila que ritmo te sobra");
+  res.status(200).json("baila que ritmo te sobra 2");
 
 });
 
