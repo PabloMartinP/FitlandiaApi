@@ -80,10 +80,11 @@ Category.register(app, '/cate');*/
 //CARGA INICIAL DEL USER fit fit
 var Usuario = require('./models/Usuario.js');
 var query = {username: "fit", password: "fit"};    
-Usuario.findOne(query, function(err, user){
+Usuario.findOne(query, function(err, user){  
+  //5b130766245329001464917d es la imagen de camus /subidas/camus_de_acuario--i_14138541274414138513 (1).png
   if (err) return next(err);
   if(user==null)
-    Usuario.create({username: "fit", password: "fit", peso: 45.5, altura: 35.4});
+    Usuario.create({username: "fit", password: "fit", peso: 45.5, altura: 35.4, foto: "5b130766245329001464917d"});
 });
 
 /* LOGIN*/
