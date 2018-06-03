@@ -79,12 +79,15 @@ Category.register(app, '/cate');*/
 //********************************************* */
 //CARGA INICIAL DEL USER fit fit
 var Usuario = require('./models/Usuario.js');
+var Foto = require('./models/Foto.js');
 var query = {username: "fit", password: "fit"};    
 Usuario.findOne(query, function(err, user){  
   //5b130766245329001464917d es la imagen de camus /subidas/camus_de_acuario--i_14138541274414138513 (1).png
   if (err) return next(err);
-  if(user==null)
-    Usuario.create({username: "fit", password: "fit", peso: 45.5, altura: 35.4, foto: "5b130766245329001464917d"});
+  if(user==null){
+    Usuario.create({username: "fit", password: "fit", peso: 45.5, altura: 165.4});    
+  }
+    
 });
 
 /* LOGIN*/
@@ -105,6 +108,12 @@ app.use('/fotos', fotos);
 
 var usuarios = require('./routes/usuarios.js');
 app.use('/user', usuarios);
+
+var vueltaplaza = require('./routes/vueltasEnLaPlaza.js');
+app.use('/vueltaenlaplaza', vueltaplaza);
+
+//var entrenamientos = require('./routes/entrenamientos.js');
+//app.use('/entrenamientos', entrenamientos);
 
 //********************************************* */
 //********************************************* */

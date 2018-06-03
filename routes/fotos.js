@@ -5,10 +5,10 @@ var Foto = require('../models/Foto.js');
 var fs = require('fs');
 var os = require("os");
 
+var dir = "subidas/";
 //var multer  = require('multer');
 //var upload = multer({ dest: 'uploads/' });
 
-var dir = "subidas/";
 
 /* GET ALL PRODUCTS */
 router.get('/', function(req, res, next) {
@@ -23,9 +23,7 @@ router.get('/:id', function(req, res, next) {
     Foto.findById(req.params.id, function (err, post) {
     if (err) return next(err);
 
-    
-
-    res.json(post);
+        res.json(post);
   });
 });
 
@@ -57,11 +55,7 @@ router.post('/',  function(req, res, next) {
     var f = {
       nombre: req.body.nombre,
       url: fullUrl+ path, 
-      base64: mimetypeAndImageAsBase64,
-      foto: {
-        data : "", 
-        contentType : contentType
-      }
+      base64: mimetypeAndImageAsBase64
     };
     //console.log("f", f);
     Foto.create(f, function (err, post) {
@@ -69,39 +63,7 @@ router.post('/',  function(req, res, next) {
         res.json(post);
       });
   });
-  
-  
-  
-  
 
-    
-
-
-/*
-sampleFile.mv('filename1.jpg', function(err) {
-  if (err)
-    return res.status(500).send(err); 
-
-    console.log(sampleFile);
-    var bitmap = fs.readFileSync('filename1.jpg');
-    // convert binary data to base64 encoded string
-    var b = new Buffer(bitmap).toString('base64');
-  
-    
-    Foto.create({nombre: req.body.nombre, foto: b}, function (err, post) {
-      if (err) return next(err);
-      res.json(post);
-    });    
-  });*/
-
-  
-
-/*sampleFile.mv('filename1.jpg', function(err) {
-  if (err)
-    return res.status(500).send(err); 
-  });*/
-
-  
 });
 
 /* UPDATE PRODUCT */
