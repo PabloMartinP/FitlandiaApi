@@ -121,11 +121,17 @@ router.post('/:username/entrenamientos/vueltaenlaplaza', function(req, res, next
 
 
 /********************************************************/
-router.get('/:username/entrenamientos', function(req, res, next) {
+router.get('/:username/entrenamientos/:tipo?', function(req, res, next) {
   var quser = {'username':req.params.username};
   Usuario.findOne(quser, function(err, user){
       if (err) return next(err);
-      var qentre = {usuario: user._id}
+      var qentre;
+      //console.log("req.params.tipo", req.params.tipo);
+      //console.log("req.params.tipo == undefined", req.params.tipo == undefined);
+      if(req.params.tipo == undefined)
+        qentre = {usuario: user._id};
+      else
+      qentre = {usuario: user._id, tipo: req.params.tipo};
 
       Entrenamiento.find(qentre, function (err, entres) {
         if (err) return next(err);
