@@ -106,10 +106,12 @@ router.post('/:username/entrenamientos/vueltaenlaplaza', function(req, res, next
         if (err) return next(err);
         //res.json(entre);
         //var track = [{lat: 12, lng: 34}, {lat: 56, lng: 78}, {lat: 88, lng: 99}];
-        var tracking = req.body.tracking;
+        /*var tracking = req.body.tracking;
         var qvuelta = {
           tracking: tracking, 
-          entrenamiento: entre._id};
+          entrenamiento: entre._id};*/
+        var qvuelta = req.body;
+        qvuelta.entrenamiento = entre._id
         VueltaEnLaPlaza.create(qvuelta, function (err, vuelta) {
           if (err) return next(err);
           //console.log("vuelta", vuelta);
