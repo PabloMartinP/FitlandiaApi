@@ -2,10 +2,11 @@ var mongoose = require('mongoose');
 
 var VueltaEnLaPlazaSchema = new mongoose.Schema({
   tracking: [{lat: Number, lng: Number}],
-  distanciaEnKm: Number, 
+  distanciaEnMetros: Number, 
   inicio: Number, 
   fin: Number, 
-  velocidad: Number,   
+  tiempoEnSegundos: Number, 
+  velocidadEnMetrosSobreSegundos: Number,   
   calorias: Number, 
   entrenamiento:{type: mongoose.Schema.Types.ObjectId, ref: 'Entrenamiento'}
 });
