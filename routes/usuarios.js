@@ -100,22 +100,21 @@ router.post('/:username/entrenamientos/vueltaenlaplaza', function(req, res, next
   var quser = {'username':req.params.username};
   Usuario.findOne(quser, function(err, user){
       if (err) return next(err);
-      var qentre = {
+      /*var qentre = {
         tipo: "vueltaplaza", 
         distanciaEnMetros: req.body.distanciaEnMetros,
         tiempoEnSegundos: req.body.tiempoEnSegundos,
+        usuario: user._id};*/
+      var qentre = {
+        tipo: "vueltaplaza", 
         usuario: user._id};
-        
+      
       Entrenamiento.create(qentre, function (err, entre) {
         if (err) return next(err);
-        //res.json(entre);
-        //var track = [{lat: 12, lng: 34}, {lat: 56, lng: 78}, {lat: 88, lng: 99}];
-        /*var tracking = req.body.tracking;
-        var qvuelta = {
-          tracking: tracking, 
-          entrenamiento: entre._id};*/
+        
         var qvuelta = req.body;
         qvuelta.entrenamiento = entre._id
+        qvuelta.usuario = user._id;
         VueltaEnLaPlaza.create(qvuelta, function (err, vuelta) {
           if (err) return next(err);
           //console.log("vuelta", vuelta);
@@ -127,19 +126,16 @@ router.post('/:username/entrenamientos/vueltaenlaplaza', function(req, res, next
 
 
 /********************************************************/
-router.get('/:username/entrenamientos/:tipo?', function(req, res, next) {
+router.get('/:username/entrenamientos/vueltaenlaplaza', function(req, res, next) {
   var quser = {'username':req.params.username};
   Usuario.findOne(quser, function(err, user){
       if (err) return next(err);
       var qentre;
       //console.log("req.params.tipo", req.params.tipo);
-      //console.log("req.params.tipo == undefined", req.params.tipo == undefined);
-      if(req.params.tipo == undefined)
-        qentre = {usuario: user._id};
-      else
-      qentre = {usuario: user._id, tipo: req.params.tipo};
-
-      Entrenamiento.find(qentre).sort({fecha: -1}).exec(function (err, entres) {
+      //console.log("req.params.tipo == undefined", req.params.tipo == undefined);      
+      qentre = {usuario: user._id};
+      
+      VueltaEnLaPlaza.find(qentre).sort({fecha: -1}).exec(function (err, entres) {
         if (err) return next(err);
         res.json(entres);
       });

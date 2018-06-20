@@ -7,8 +7,12 @@ var VueltaEnLaPlazaSchema = new mongoose.Schema({
   fin: Number, 
   tiempoEnSegundos: Number, 
   velocidadEnMetrosSobreSegundos: Number,   
-  calorias: Number, 
-  entrenamiento:{type: mongoose.Schema.Types.ObjectId, ref: 'Entrenamiento'}
+  entrenamiento:{type: mongoose.Schema.Types.ObjectId, ref: 'Entrenamiento'},
+  fecha: {
+    type: Date,
+    default: Date.now
+  },
+  usuario:{type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'}
 });
 
 module.exports = mongoose.model('VueltaEnLaPlaza', VueltaEnLaPlazaSchema);
