@@ -7,7 +7,10 @@ var EntrenamientoSchema = new mongoose.Schema({
     default: Date.now
   },
   comentario: String,   
-  usuario:{type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'}
+  usuario:{type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'}, 
+  distanciaEnMetros: Number, 
+  tiempoEnSegundos: Number,   
+  repeticiones: Number
 });
 
 module.exports = mongoose.model('Entrenamiento', EntrenamientoSchema);

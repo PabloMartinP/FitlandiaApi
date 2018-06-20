@@ -100,8 +100,12 @@ router.post('/:username/entrenamientos/vueltaenlaplaza', function(req, res, next
   var quser = {'username':req.params.username};
   Usuario.findOne(quser, function(err, user){
       if (err) return next(err);
-      var qentre = {tipo: "vueltaplaza", usuario: user._id};
-
+      var qentre = {
+        tipo: "vueltaplaza", 
+        distanciaEnMetros: req.body.distanciaEnMetros,
+        tiempoEnSegundos: req.body.tiempoEnSegundos,
+        usuario: user._id};
+        
       Entrenamiento.create(qentre, function (err, entre) {
         if (err) return next(err);
         //res.json(entre);
@@ -135,7 +139,7 @@ router.get('/:username/entrenamientos/:tipo?', function(req, res, next) {
       else
       qentre = {usuario: user._id, tipo: req.params.tipo};
 
-      Entrenamiento.find(qentre, function (err, entres) {
+      Entrenamiento.find(qentre).sort({fecha: -1}).exec(function (err, entres) {
         if (err) return next(err);
         res.json(entres);
       });
@@ -152,6 +156,7 @@ router.post('/:username/entrenamientos', function(req, res, next) {
         var nuevoEntrenamiento = {
           tipo: req.body.tipo,
           comentario: req.body.comentario,   
+
           usuario:user._id
         }
         Entrenamiento.create(nuevoEntrenamiento, function (err, post) {
