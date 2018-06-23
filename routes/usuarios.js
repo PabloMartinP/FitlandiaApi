@@ -176,8 +176,14 @@ router.put('/:username', function(req, res, next) {
     
     var query = {'username':req.params.username};
     Usuario.findOneAndUpdate(query, req.body, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
+      if (err) return next(err);
+    //console.log("req.body", req.body);
+    //console.log("post", post);
+    Usuario.findById(post._id, function(err1, user){
+      if (err1) return next(err1);
+      res.json(user);
+    });
+    
   });
 });
 

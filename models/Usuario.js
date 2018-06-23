@@ -5,7 +5,11 @@ var UsuarioSchema = new mongoose.Schema({
   password: String, 
   peso: Number, 
   altura: Number,
-  foto:{type: mongoose.Schema.Types.ObjectId, ref: 'Foto'}
+  foto:{type: mongoose.Schema.Types.ObjectId, ref: 'Foto'}, 
+  edad:Number, 
+  cintura: Number, 
+  cuello: Number, 
+  cadera: Number
 });
 
 module.exports = mongoose.model('Usuario', UsuarioSchema);
