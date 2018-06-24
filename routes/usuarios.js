@@ -5,6 +5,7 @@ var Usuario = require('../models/Usuario.js');
 
 var Entrenamiento = require('../models/Entrenamiento.js');
 var VueltaEnLaPlaza = require('../models/VueltaEnLaPlaza.js');
+var Logro = require('../models/Logro.js');
 
 var Foto = require('../models/Foto.js');
 var fs = require('fs');
@@ -45,6 +46,8 @@ router.get('/:username/foto', function(req, res, next) {
     }    
   });    
 });
+
+
 
 
 router.post('/:username/foto',  function(req, res, next) {
@@ -195,5 +198,44 @@ router.delete('/:username', function(req, res, next) {
     res.json(post);
   });
 });
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+router.get('/:username/logros', function(req, res, next) {
+  var quser = {'username':req.params.username};
+  Usuario.findOne(quser, function(err, user){
+      if (err) return next(err);
+      var qentre;
+      //console.log("req.params.tipo", req.params.tipo);
+      //console.log("req.params.tipo == undefined", req.params.tipo == undefined);      
+      qentre = {usuario: user._id};
+      
+      Logro.find(qentre).sort({fecha: -1}).exec(function (err, entres) {
+        if (err) return next(err);
+        res.json(entres);
+      });
+  });
+});
+
+router.post('/:username/logros', function(req, res, next) {
+  var query = {'username':req.params.username};
+    //var query = {username: "fit"};    
+    Usuario.findOne(query, function(err, user){  
+      if (err) return next(err);
+      if(user!=null){
+        
+        var logro = req.body;
+        logro.usuario = user._id;
+
+        Logro.create(logro, function (err, post) {
+          if (err) return next(err);
+          res.json(post);
+        });
+      }
+    });
+});
+
+//////////////////////////////////////////////////////////////////////////////////
 
 module.exports = router;

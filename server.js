@@ -112,6 +112,9 @@ app.use('/user', usuarios);
 var vueltaplaza = require('./routes/vueltasEnLaPlaza.js');
 app.use('/vueltaenlaplaza', vueltaplaza);
 
+var logro = require('./routes/logros.js');
+app.use('/logros', logro);
+
 //var entrenamientos = require('./routes/entrenamientos.js');
 //app.use('/entrenamientos', entrenamientos);
 
