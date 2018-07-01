@@ -6,6 +6,7 @@ var Usuario = require('../models/Usuario.js');
 var Entrenamiento = require('../models/Entrenamiento.js');
 var VueltaEnLaPlaza = require('../models/VueltaEnLaPlaza.js');
 var Logro = require('../models/Logro.js');
+var Rutina = require('../models/Rutina.js');
 
 var Foto = require('../models/Foto.js');
 var fs = require('fs');
@@ -145,6 +146,53 @@ router.get('/:username/entrenamientos/vueltaenlaplaza', function(req, res, next)
   });    
 });
 
+////////////////////////////////////////////////////
+
+router.get('/:username/entrenamientos/rutinas', function(req, res, next) {
+  var quser = {'username':req.params.username};
+  Usuario.findOne(quser, function(err, user){
+      if (err) return next(err);
+      var qentre;
+      //console.log("req.params.tipo", req.params.tipo);
+      //console.log("req.params.tipo == undefined", req.params.tipo == undefined);      
+      qentre = {usuario: user._id};
+      
+      Rutina.find(qentre).sort({fecha: -1}).exec(function (err, entres) {
+        if (err) return next(err);
+        res.json(entres);
+      });
+  });    
+});
+
+router.post('/:username/entrenamientos/rutinas', function(req, res, next) {
+  var quser = {'username':req.params.username};
+  Usuario.findOne(quser, function(err, user){
+      if (err) return next(err);
+      /*var qentre = {
+        tipo: "vueltaplaza", 
+        distanciaEnMetros: req.body.distanciaEnMetros,
+        tiempoEnSegundos: req.body.tiempoEnSegundos,
+        usuario: user._id};*/
+      var qentre = {
+        tipo: "rutinas", 
+        usuario: user._id};
+      
+      Entrenamiento.create(qentre, function (err, entre) {
+        if (err) return next(err);
+        
+        var qvuelta = req.body;
+        qvuelta.entrenamiento = entre._id
+        qvuelta.usuario = user._id;
+        Rutina.create(qvuelta, function (err, vuelta) {
+          if (err) return next(err);
+          //console.log("vuelta", vuelta);
+          res.json(vuelta);          
+        });
+      });
+  });    
+});
+
+////////////////////////////////////////////////////
 router.post('/:username/entrenamientos', function(req, res, next) {
   var query = {'username':req.params.username};
     //var query = {username: "fit"};    
