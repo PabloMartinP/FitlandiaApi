@@ -7,6 +7,7 @@ var Entrenamiento = require('../models/Entrenamiento.js');
 var VueltaEnLaPlaza = require('../models/VueltaEnLaPlaza.js');
 var Logro = require('../models/Logro.js');
 var Rutina = require('../models/Rutina.js');
+var Peso = require('../models/LogPeso.js');
 
 var Foto = require('../models/Foto.js');
 var fs = require('fs');
@@ -142,6 +143,42 @@ router.get('/:username/entrenamientos/vueltaenlaplaza', function(req, res, next)
       VueltaEnLaPlaza.find(qentre).sort({fecha: -1}).exec(function (err, entres) {
         if (err) return next(err);
         res.json(entres);
+      });
+  });    
+});
+
+//////////////////////////////////////////////////////
+
+
+router.get('/:username/peso', function(req, res, next) {
+  var quser = {'username':req.params.username};
+  Usuario.findOne(quser, function(err, user){
+      if (err) return next(err);
+      var qpeso;
+      //console.log("req.params.tipo", req.params.tipo);
+      //console.log("req.params.tipo == undefined", req.params.tipo == undefined);      
+      qpeso = {usuario: user._id};
+      
+      Peso.find(qpeso).sort({fecha: 1}).exec(function (err, entres) {
+        if (err) return next(err);
+        res.json(entres);
+      });
+  });
+});
+
+router.post('/:username/peso', function(req, res, next) {
+  var quser = {'username':req.params.username};
+  Usuario.findOne(quser, function(err, user){
+      if (err) return next(err);
+      
+      var qpeso = {
+        peso: req.body.peso, 
+        usuario: user._id};
+      
+      Peso.create(qpeso, function (err, peso) {
+        if (err) return next(err);
+        
+        res.json(peso);      
       });
   });    
 });
