@@ -115,6 +115,9 @@ app.use('/vueltaenlaplaza', vueltaplaza);
 var logro = require('./routes/logros.js');
 app.use('/logros', logro);
 
+var peso = require('../models/LogPeso.js');
+app.use('/peso', peso);
+
 //var entrenamientos = require('./routes/entrenamientos.js');
 //app.use('/entrenamientos', entrenamientos);
 
