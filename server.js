@@ -159,6 +159,10 @@ app.get("/fiok", function(req, res) {
 
 });
 
+app.get("/dino-moon-walk", function(req, res) {
+  res.status(200).json("te la kreiste wey!");
+});
+
 app.get("/aom", function(req, res) {
   res.status(200).json("ella ya me olvido");
 
